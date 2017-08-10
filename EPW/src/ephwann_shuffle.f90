@@ -37,7 +37,8 @@
                             elecselfen, phonselfen, nest_fn, a2f,               &
                             vme, eig_read, ephwrite, nkf1, nkf2, nkf3,          & 
                             efermi_read, fermi_energy, specfun, band_plot,      &
-                            nqf1, nqf2, nqf3, mp_mesh_k, restart
+                            nqf1, nqf2, nqf3, mp_mesh_k, restart,               &
+                            nstemp, tempsmin, tempsmax
   USE noncollin_module, ONLY : noncolin
   USE constants_epw, ONLY : ryd2ev, ryd2mev, one, two, czero, twopi, ci, zero
   USE io_files,      ONLY : prefix, diropn
@@ -198,6 +199,8 @@
   !! Used to store $e^{2\pi r \cdot k}$ exponential 
   COMPLEX(kind=DP), ALLOCATABLE :: cfacq(:)
   !! Used to store $e^{2\pi r \cdot k+q}$ exponential 
+  INTEGER :: temp_step 
+  !! Counter on temperature steps. Add by X. Zhou 2017
   ! 
   IF (nbndsub.ne.nbnd) &
        WRITE(stdout, '(/,14x,a,i4)' ) 'band disentanglement is used:  nbndsub = ', nbndsub
@@ -922,7 +925,13 @@
        ENDDO  ! end loop over k points
        !
        IF (phonselfen ) CALL selfen_phon_q( iq )
-       IF (elecselfen ) CALL selfen_elec_q( iq )
+       IF (elecselfen ) THEN
+           IF (nstemp .eq. 1) THEN
+               CALL selfen_elec_q( iq )
+           ELSE
+                CALL selfen_elec_q_T( iq )
+           ENDIF
+       ENDIF
        IF (nest_fn    ) CALL nesting_fn_q( iq )
        IF (specfun    ) CALL spectral_func_q( iq )
        IF (ephwrite) THEN
