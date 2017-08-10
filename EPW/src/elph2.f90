@@ -68,7 +68,11 @@
        zstar(:,:,:),           &!  Born effective charges
        epsi(:,:),              &!  dielectric tensor
        inv_tau_all(:,:,:),     &!  scattering rate
-       ifc(:,:,:,:,:,:,:)       !  Interatomic force constant in real space
+       ifc(:,:,:,:,:,:,:),     & !  Interatomic force constant in real space
+       sigmar_all_T(:,:,:),    &!  To store sigmar, sigmai and zi globally
+       sigmai_all_T(:,:,:),    &!
+       sigmai_mode_T(:,:,:,:),     &! 
+       zi_all_T(:,:,:)         !
   REAL(KIND=DP) ::             &!
        efnew                    !  SP: Fermi level on the fine grid. Added globaly for efficiency reason 
   INTEGER ::                   &!
