@@ -1345,6 +1345,12 @@ END SUBROUTINE selfen_elec_k
     !          WRITE(stdout, 103) ik, ryd2ev * ekk, ryd2mev * sigmar_all (ibnd,ik), &
     !                             ryd2mev * sigmai_all (ibnd,ik), zi_all (ibnd,ik)
           IF ( iverbosity == 3 ) THEN
+            WRITE(linewidth_elself,'(i9,2x)',advance='no') ik
+            WRITE(linewidth_elself,'(i9,2x)',advance='no') ibndmin-1+ibnd
+            WRITE(linewidth_elself,'(E22.14,2x)',advance='no') ryd2ev * ekk
+            WRITE(linewidth_elself,'(i9,2x)',advance='no') 0
+            WRITE(linewidth_elself,'(E22.14,2x)',advance='no') ryd2mev*sigmai_all(ibnd,ik)
+            WRITE(linewidth_elself,'(E22.14,2x)') zi_all(ibnd,ik)
             DO imode=1, nmodes
               WRITE(linewidth_elself,'(i9,2x)',advance='no') ik
               WRITE(linewidth_elself,'(i9,2x)',advance='no') ibndmin-1+ibnd
